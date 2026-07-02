@@ -125,4 +125,4 @@ src/
 
 ## License
 
-`MIT` is a good default choice for this project.
+This project is licensed under the `MIT` License.

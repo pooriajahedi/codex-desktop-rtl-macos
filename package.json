@@ -1,0 +1,13 @@
+{
+  "name": "codex-rtl-macos",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local RTL rendering patch for Codex Desktop on macOS.",
+  "scripts": {
+    "launch": "sh ./desktop/launch-codex-rtl-macos.sh",
+    "inject": "node ./desktop/inject.mjs",
+    "inject:dry-run": "node ./desktop/inject.mjs --dry-run",
+    "rtl": "sh ./desktop/run-codex-rtl-macos.sh"
+  }
+}

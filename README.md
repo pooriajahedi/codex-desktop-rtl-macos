@@ -8,9 +8,9 @@ This project improves right-to-left rendering for Persian and Arabic text in the
 
 This is a local workaround, not official product support.
 
-It does not modify the installed `Codex.app` bundle.
+It does not modify the installed app bundle.
 
-It launches `Codex` with a local debugging port and injects CSS and JavaScript at runtime.
+It attempts to launch the desktop app with a local debugging port and inject CSS and JavaScript at runtime.
 
 ## Features
 
@@ -37,8 +37,8 @@ git clone https://github.com/pooriajahedi/codex-desktop-rtl-macos.git
 cd codex-desktop-rtl-macos
 ```
 
-1. Close `Codex` if it is already running.
-2. Launch `Codex` with the local debugging port enabled:
+1. Close the app if it is already running.
+2. Launch the app with the local debugging port enabled:
 
 ```bash
 sh ./desktop/launch-codex-rtl-macos.sh
@@ -55,6 +55,62 @@ You can also use the helper script that performs both steps with a short delay:
 ```bash
 sh ./desktop/run-codex-rtl-macos.sh
 ```
+
+## Older vs Newer App Versions
+
+Older desktop builds used the app name:
+
+```text
+/Applications/Codex.app
+```
+
+On those builds, the standard commands were:
+
+```bash
+sh ./desktop/launch-codex-rtl-macos.sh
+node ./desktop/inject.mjs
+```
+
+Newer desktop builds may use the app name:
+
+```text
+/Applications/ChatGPT.app
+```
+
+If the launcher does not auto-detect the correct bundle, run:
+
+```bash
+CODEX_APP_PATH="/Applications/ChatGPT.app" sh ./desktop/launch-codex-rtl-macos.sh
+```
+
+Then run:
+
+```bash
+node ./desktop/inject.mjs
+```
+
+Important note for newer builds:
+
+The app rename from `Codex.app` to `ChatGPT.app` is supported by the launcher, but some newer builds may no longer expose the local `DevTools` endpoint even when launched with `--remote-debugging-port`.
+
+In local testing on app version:
+
+```text
+26.707.51957
+```
+
+the app launched successfully, but the local endpoint at:
+
+```text
+http://127.0.0.1:9223/json
+```
+
+did not become available, so the injector could not attach.
+
+This means:
+
+- older builds are more likely to work with the current workaround,
+- newer builds may require a different launch strategy or a new workaround.
 
 ## Updating
 
@@ -77,7 +133,7 @@ The scripts support these optional environment variables:
 Default values:
 
 ```bash
-CODEX_APP_PATH=/Applications/Codex.app
+CODEX_APP_PATH=<auto-detected>
 CODEX_RTL_PORT=9223
 CODEX_RTL_DELAY_MS=2500
 ```
@@ -103,9 +159,10 @@ The injected logic:
 
 ## Limitations
 
-- This is unofficial and may break after future `Codex` UI updates.
+- This is unofficial and may break after future desktop app updates.
 - If the renderer fully reloads, you may need to run the injector again.
 - DOM selectors may need adjustment across app versions.
+- Some newer app versions may block or ignore the local `DevTools` port used by this workaround.
 
 ## Project Structure
 
@@ -125,4 +182,4 @@ src/
 
 ## License
 
-This project is licensed under the `MIT` License.
+This project is licensed under the `MIT` License. See the `LICENSE` file for details.

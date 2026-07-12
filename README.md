@@ -122,6 +122,8 @@ git pull
 
 The current initial public version is `v0.1.0`.
 
+The current documentation update for newer `ChatGPT.app` behavior is intended for `v0.1.1`.
+
 ## Environment Variables
 
 The scripts support these optional environment variables:
